@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+    "name": "ListenToThis-Colors",
+    "version": "1",
+    "author": "Alex Adam",
+    "homepage_url": "https://github.com/alexadam/ListenToThis-Colors",
+    "description": "",
+    "icons": {
+        "48": "icons/logo.png"
+    },
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "http://*/*",
+        "https://*/*",
+        "<all_urls>"
+    ]
+}
