@@ -5,6 +5,7 @@
     "author": "Alex Adam",
     "homepage_url": "https://github.com/alexadam/ListenToThis-Colors",
     "description": "",
+    "options_page": "options.html",
     "icons": {
         "48": "icons/logo.png"
     },
@@ -16,6 +17,7 @@
         "tabs",
         "http://*/*",
         "https://*/*",
-        "<all_urls>"
+        "<all_urls>",
+        "storage"
     ]
 }

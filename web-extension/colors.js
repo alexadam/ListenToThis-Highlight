@@ -79,12 +79,21 @@ const getGenres = (title) => {
         title = title.replace('[', '')
         title = title.replace(']', '')
         let genres = [title]
-        if (title.indexOf('/') !== -1) {
-            genres = title.split('/')
-        } else if (title.indexOf(',') !== -1) {
-            genres = title.split(',')
-        }
+        genres = title.split(/[\/,\s]/)
+
+        // if (title.indexOf('/') !== -1) {
+        //     genres = title.split(/[\/,\s]/)
+        // } else if (title.indexOf(',') !== -1) {
+        //     genres = title.split(',')
+        // }
         if (!genres) return []
+        genres = genres.filter((gen) => {
+            if (gen.length === 0) return false
+            return true
+            }
+        )
+        genres = genres.filter((gen, pos) => genres.indexOf(gen) == pos)
+        console.log('GGGG', genres);
         return genres
     } catch (e) {
         console.log(e);
@@ -92,168 +101,151 @@ const getGenres = (title) => {
     }
 }
 
-const genColors = (nrOfColors) => {
-    let colors = []
-    for(let i = 0; i < 360; i += 360 / nrOfColors) {
-        let hue = i;
-        let saturation = 90 + Math.random() * 10;
-        let lightness = 50 + Math.random() * 10;
-
-        // let rgb = hslToRgb(hue, saturation, lightness)
-        // let hex = rgbToHex(rgb[0], rgb[1], rgb[2])
-        let hex = hslToHex(hue, saturation, lightness)
-        colors.push(hex)
-    }
-    console.log(colors);
-    return colors
+const genreToRegex = (genre) => {
+    genre = genre.trim()
+    genre = genre.toLowerCase()
+    genre = genre.replace(/[^a-z0-9]/gi, '.?')
+    genre = '.*?' + genre + '.*?'
+    return genre
 }
 
-function hslToHex(h, s, l) {
-  h /= 360;
-  s /= 100;
-  l /= 100;
-  let r, g, b;
-  if (s === 0) {
-    r = g = b = l; // achromatic
-  } else {
-    const hue2rgb = (p, q, t) => {
-      if (t < 0) t += 1;
-      if (t > 1) t -= 1;
-      if (t < 1 / 6) return p + (q - p) * 6 * t;
-      if (t < 1 / 2) return q;
-      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-      return p;
-    };
-    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    const p = 2 * l - q;
-    r = hue2rgb(p, q, h + 1 / 3);
-    g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1 / 3);
-  }
-  const toHex = x => {
-    const hex = Math.round(x * 255).toString(16);
-    return hex.length === 1 ? '0' + hex : hex;
-  };
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-}
-
-
-const getRandomInt = () => Math.floor(255 * Math.random())
-
-const getRandomColor = (opacity = 0.1) => {
-    return 'rgba(' + getRandomInt() + ',' + getRandomInt() + ',' + getRandomInt() + ',' + opacity + ')'
-}
-
-
-for (let i = 0; i < elements.length; i++) {
-    let elem2 = elements[i];
-    var style = window.getComputedStyle(elem2);
-    let elem = elem2.querySelector('a.title');
-    let text = elem.innerText.toLowerCase()
-
-    if (text.indexOf('[') === -1) {
-        continue
-    }
-
-    let textParts = text.split('[')
-    text = textParts[1]
-
-    let colorContainer = document.createElement('div')
-    colorContainer.className = "colorContainer"
-    colorContainer.style.float = "right"
-    colorContainer.style.width = "200px"
-    colorContainer.style.height = style.height
-    colorContainer.style.marginBottom = "-" + style.height
-    colorContainer.style.display = 'flex'
-    colorContainer.style.flexFlow = 'row'
-    // colorContainer.style.position = 'absolute'
-    // colorContainer.style.zIndex = '-9999'
-
-    let allColors = genColors(30)
-    console.log(allColors);
-
-    let genres = getGenres('[' + text)
-
-    for (let genre of genres) {
-        let colorElem = document.createElement('div')
-        colorElem.className = "colorGenre effect"
-        // colorElem.style.width = "100%"
-        // colorElem.style.height = '100%'
-        // colorElem.style.position = 'absolute'
-        // colorElem.style.marginTop = "-" + style.height
-        // colorElem.style.zIndex = '-9999'
-
-        colorElem.style.backgroundColor = allColors[Math.floor(Math.random()*allColors.length)]
-        if (genre.indexOf('jazz') !== -1) {
-            colorElem.style.backgroundColor = 'yellow'
+const getGenreColor = (genreRegex, colorData) => {
+    let re = new RegExp(genreRegex, "i");
+    for (let key in colorData) {
+        if (colorData.hasOwnProperty(key)) {
+            if (key.match(re)) return colorData[key]
         }
-        if (genre.indexOf('rock') !== -1) {
-            colorElem.style.backgroundColor = allColors[Math.floor(Math.random()*allColors.length)]
+    }
+    return '#ffffff'
+}
+
+// const genColors = (nrOfColors) => {
+//     let colors = []
+//     for(let i = 0; i < 360; i += 360 / nrOfColors) {
+//         let hue = i;
+//         let saturation = 90 + Math.random() * 10;
+//         let lightness = 50 + Math.random() * 10;
+//
+//         // let rgb = hslToRgb(hue, saturation, lightness)
+//         // let hex = rgbToHex(rgb[0], rgb[1], rgb[2])
+//         let hex = hslToHex(hue, saturation, lightness)
+//         colors.push(hex)
+//     }
+//     console.log(colors);
+//     return colors
+// }
+//
+// function hslToHex(h, s, l) {
+//   h /= 360;
+//   s /= 100;
+//   l /= 100;
+//   let r, g, b;
+//   if (s === 0) {
+//     r = g = b = l; // achromatic
+//   } else {
+//     const hue2rgb = (p, q, t) => {
+//       if (t < 0) t += 1;
+//       if (t > 1) t -= 1;
+//       if (t < 1 / 6) return p + (q - p) * 6 * t;
+//       if (t < 1 / 2) return q;
+//       if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+//       return p;
+//     };
+//     const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+//     const p = 2 * l - q;
+//     r = hue2rgb(p, q, h + 1 / 3);
+//     g = hue2rgb(p, q, h);
+//     b = hue2rgb(p, q, h - 1 / 3);
+//   }
+//   const toHex = x => {
+//     const hex = Math.round(x * 255).toString(16);
+//     return hex.length === 1 ? '0' + hex : hex;
+//   };
+//   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+// }
+//
+//
+// const getRandomInt = () => Math.floor(255 * Math.random())
+//
+// const getRandomColor = (opacity = 0.1) => {
+//     return 'rgba(' + getRandomInt() + ',' + getRandomInt() + ',' + getRandomInt() + ',' + opacity + ')'
+// }
+
+const addColorsOnSongs = (colorData) => {
+    for (let i = 0; i < elements.length; i++) {
+        let elem2 = elements[i];
+        var style = window.getComputedStyle(elem2);
+        let elem = elem2.querySelector('a.title');
+        let text = elem.innerText.toLowerCase()
+
+        if (text.indexOf('[') === -1) {
+            continue
         }
 
-        colorContainer.appendChild(colorElem)
+        let textParts = text.split('[')
+        text = textParts[1]
+
+        let colorContainer = document.createElement('div')
+        colorContainer.className = "colorContainer"
+        colorContainer.style.float = "right"
+        colorContainer.style.width = "200px"
+        colorContainer.style.height = style.height
+        colorContainer.style.marginBottom = "-" + style.height
+        colorContainer.style.display = 'flex'
+        colorContainer.style.flexFlow = 'row'
+        // colorContainer.style.position = 'absolute'
+        // colorContainer.style.zIndex = '-9999'
+
+        // let allColors = genColors(30)
+        // console.log(allColors);
+
+        let genres = getGenres('[' + text)
+
+        for (let genre of genres) {
+            let colorElem = document.createElement('div')
+            colorElem.className = "colorGenre effect"
+
+            let genreRegex = genreToRegex(genre)
+            // console.log('regex', genreRegex);
+            let genreColor = getGenreColor(genreRegex, colorData)
+            // console.log('colorrr', genreColor);
+
+            colorElem.style.backgroundColor = genreColor
+            // if (genre.indexOf('jazz') !== -1) {
+            //     colorElem.style.backgroundColor = 'yellow'
+            // }
+            // if (genre.indexOf('rock') !== -1) {
+            //     colorElem.style.backgroundColor = allColors[Math.floor(Math.random()*allColors.length)]
+            // }
+
+            colorContainer.appendChild(colorElem)
+        }
+
+
+        // elem2.prependChild(colorContainer)
+        if (genres.length > 0) {
+            elem2.insertAdjacentElement('afterbegin', colorContainer)
+        }
+
+        // if (text.indexOf('jazz') !== -1) {
+        //     console.log(text);
+        //     colorContainer.style.backgroundColor = 'yellow'
+        // }
+        // if (text.indexOf('rock') !== -1) {
+        //     colorContainer.style.backgroundColor = 'green'
+        // }
+
+        // elem.style.backgroundColor = 'red'
+
+        //  var eachtext1 = text1[i].innerText;
+        // var firstText1 = eachtext1.substr(0, 20);
+      }
+}
+
+chrome.storage.local.get('colors', function(data) {
+    if (!data || Object.keys(data).length === 0 || Object.keys(data.colors).length === 0) {
+        addColorsOnSongs({});
+    } else {
+        addColorsOnSongs(data.colors);
     }
-
-
-    // elem2.prependChild(colorContainer)
-    if (genres.length > 0) {
-        elem2.insertAdjacentElement('afterbegin', colorContainer)
-    }
-
-    // if (text.indexOf('jazz') !== -1) {
-    //     console.log(text);
-    //     colorContainer.style.backgroundColor = 'yellow'
-    // }
-    // if (text.indexOf('rock') !== -1) {
-    //     colorContainer.style.backgroundColor = 'green'
-    // }
-
-    // elem.style.backgroundColor = 'red'
-
-    //  var eachtext1 = text1[i].innerText;
-    // var firstText1 = eachtext1.substr(0, 20);
-  }
-
-  const genres = {
-
-      'afrobeat': '',
-      'alternative': '',
-      'ambient': '',
-      'bluegrass': '',
-      'blues': '',
-      'classical': '',
-      'country': '',
-      'chill': '',
-      'dnb': '',
-      'dubstep': '',
-      'electronic': '',
-      'electro': '',
-      'experimental': '',
-      'emo': '',
-      'folk': '',
-      'funk': '',
-      'garage': '',
-      'hardcore': '',
-      'hiphop': '',
-      'house': '',
-      'indie': '',
-      'instrumental': '',
-      'jazz': '',
-      'lofi': '',
-      'metal': '',
-      'orchestral': '',
-      'piano': '',
-      'pop': '',
-      'post': '',
-      'prog': '',
-      'punk': '',
-      'psychedelic': '',
-      'rnb': '',
-      'rock': '',
-      'soul': '',
-      'surf': '',
-      'swing': '',
-      'trap': '',
-      'vintage': '',
-      'world': '',
-  }
+});
