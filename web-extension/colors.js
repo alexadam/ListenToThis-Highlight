@@ -81,11 +81,6 @@ const getGenres = (title) => {
         let genres = [title]
         genres = title.split(/[\/,\s]/)
 
-        // if (title.indexOf('/') !== -1) {
-        //     genres = title.split(/[\/,\s]/)
-        // } else if (title.indexOf(',') !== -1) {
-        //     genres = title.split(',')
-        // }
         if (!genres) return []
         genres = genres.filter((gen) => {
             if (gen.length === 0) return false
@@ -177,6 +172,7 @@ const addColorsOnSongs = (colorData) => {
         var style = window.getComputedStyle(elem2);
         let elem = elem2.querySelector('a.title');
         let text = elem.innerText.toLowerCase()
+        let href = elem.href
 
         if (text.indexOf('[') === -1) {
             continue
@@ -185,7 +181,7 @@ const addColorsOnSongs = (colorData) => {
         let textParts = text.split('[')
         text = textParts[1]
 
-        let colorContainer = document.createElement('div')
+        let colorContainer = document.createElement('a')
         colorContainer.className = "colorContainer"
         colorContainer.style.float = "right"
         colorContainer.style.width = "200px"
@@ -193,52 +189,31 @@ const addColorsOnSongs = (colorData) => {
         colorContainer.style.marginBottom = "-" + style.height
         colorContainer.style.display = 'flex'
         colorContainer.style.flexFlow = 'row'
-        // colorContainer.style.position = 'absolute'
-        // colorContainer.style.zIndex = '-9999'
-
-        // let allColors = genColors(30)
-        // console.log(allColors);
+        colorContainer.style.cursor = 'pointer'
+        colorContainer.href = href
 
         let genres = getGenres('[' + text)
 
         for (let genre of genres) {
+            let genreRegex = genreToRegex(genre)
+            let genreColor = getGenreColor(genreRegex, colorData)
+
+            if (genreColor === '#ffffff'){
+                continue
+            }
+
             let colorElem = document.createElement('div')
             colorElem.className = "colorGenre effect"
 
-            let genreRegex = genreToRegex(genre)
-            // console.log('regex', genreRegex);
-            let genreColor = getGenreColor(genreRegex, colorData)
-            // console.log('colorrr', genreColor);
-
             colorElem.style.backgroundColor = genreColor
-            // if (genre.indexOf('jazz') !== -1) {
-            //     colorElem.style.backgroundColor = 'yellow'
-            // }
-            // if (genre.indexOf('rock') !== -1) {
-            //     colorElem.style.backgroundColor = allColors[Math.floor(Math.random()*allColors.length)]
-            // }
 
             colorContainer.appendChild(colorElem)
         }
 
-
-        // elem2.prependChild(colorContainer)
         if (genres.length > 0) {
             elem2.insertAdjacentElement('afterbegin', colorContainer)
         }
 
-        // if (text.indexOf('jazz') !== -1) {
-        //     console.log(text);
-        //     colorContainer.style.backgroundColor = 'yellow'
-        // }
-        // if (text.indexOf('rock') !== -1) {
-        //     colorContainer.style.backgroundColor = 'green'
-        // }
-
-        // elem.style.backgroundColor = 'red'
-
-        //  var eachtext1 = text1[i].innerText;
-        // var firstText1 = eachtext1.substr(0, 20);
       }
 }
 
