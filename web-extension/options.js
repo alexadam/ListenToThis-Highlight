@@ -41,6 +41,23 @@ const genres = {
     'world': '#08f938',
 }
 
+const resetOptions = () => {
+    chrome.storage.local.set({
+        colors: genres
+    }, function() {
+        var status = document.getElementById('status');
+        status.textContent = 'Options saved.';
+        setTimeout(function() {
+            status.textContent = '';
+        }, 2750);
+    });
+
+    let tmpElem = document.getElementById('container')
+    tmpElem.innerHTML = '';
+
+    restoreOptions()
+}
+
 // Saves options to chrome.storage
 const saveOptions = () => {
     let allGenreNames = document.getElementsByClassName('genreName')
@@ -78,6 +95,7 @@ const restoreOptions = () => {
 }
 
 const createColorsUI = (data) => {
+    let index = 0
     for (let variable in data) {
         if (data.hasOwnProperty(variable)) {
             let genreInputLabel = document.createElement('span')
@@ -94,8 +112,18 @@ const createColorsUI = (data) => {
             colorInput.value = data[variable]
             let removeButton = document.createElement('button')
             removeButton.innerText = 'Remove'
+            removeButton.addEventListener('click', ((index) => {
+                if (confirm('Are you sure you want to remove this?')) {
+                    let tmpElem = document.getElementById('data' + index)
+                    if (tmpElem && tmpElem.parentElement) {
+                        tmpElem.parentElement.removeChild(tmpElem)
+                        saveOptions()
+                    }
+                }
+            }).bind(this, index))
 
             let group = document.createElement('div')
+            group.id = 'data' + index
             group.appendChild(genreInputLabel)
             group.appendChild(genreInput)
             group.appendChild(colorInputLabel)
@@ -104,9 +132,53 @@ const createColorsUI = (data) => {
 
             let container = document.getElementById('container')
             container.appendChild(group)
+
+            index++
         }
     }
 }
 
+const addOption = () => {
+    let index = Math.floor(Math.random() * 1000000)
+    let genreInputLabel = document.createElement('span')
+    genreInputLabel.innerText = 'Genre:'
+    let genreInput = document.createElement('input')
+    genreInput.className = 'genreName'
+    genreInput.type = 'text'
+    genreInput.value = 'misc'
+    let colorInputLabel = document.createElement('span')
+    colorInputLabel.innerText = 'Color:'
+    let colorInput = document.createElement('input')
+    colorInput.className = 'colorName'
+    colorInput.type = 'color'
+    colorInput.value = '#000000'
+    let removeButton = document.createElement('button')
+    removeButton.innerText = 'Remove'
+    removeButton.addEventListener('click', ((index) => {
+        if (confirm('Are you sure you want to remove this?')) {
+            let tmpElem = document.getElementById('data' + index)
+            if (tmpElem && tmpElem.parentElement) {
+                tmpElem.parentElement.removeChild(tmpElem)
+                saveOptions()
+            }
+        }
+    }).bind(this, index))
+
+    let group = document.createElement('div')
+    group.id = 'data' + index
+    group.appendChild(genreInputLabel)
+    group.appendChild(genreInput)
+    group.appendChild(colorInputLabel)
+    group.appendChild(colorInput)
+    group.appendChild(removeButton)
+
+    let container = document.getElementById('container')
+    container.appendChild(group)
+
+    saveOptions()
+}
+
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.getElementById('save').addEventListener('click', saveOptions);
+document.getElementById('reset').addEventListener('click', resetOptions);
+document.getElementById('add').addEventListener('click', addOption);
