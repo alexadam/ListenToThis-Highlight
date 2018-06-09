@@ -117,7 +117,7 @@ const addColorsOnSongs = (colorData) => {
 
             if (index === 0) {
                 let rgb = hexToRgb(genreColor.color)
-                elem2.style.backgroundColor = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.1' + ')'
+                elem2.style.backgroundColor = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.3' + ')'
             }
             index++
         }

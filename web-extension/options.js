@@ -1,4 +1,4 @@
-const genres = {
+const allGenres = {
     'afrobeat': '#f50b0b',
     'alternative': '#fb5b33',
     'ambient': '#fa8335',
@@ -39,6 +39,15 @@ const genres = {
     'trap': '#fc31d3',
     'vintage': '#7b22ff',
     'world': '#08f938',
+}
+const genres = {
+    'ambient': '#fa8335',
+    'blues': '#0df9f9',
+    'country': '#fad337',
+    'chill': '#a8f830',
+    'funk': '#F2EF0C',
+    'jazz': '#7117f8',
+    'soul': '#274A43',
 }
 
 const resetOptions = () => {
