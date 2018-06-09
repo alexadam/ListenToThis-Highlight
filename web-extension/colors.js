@@ -1,68 +1,19 @@
 var styleElem = document.head.appendChild(document.createElement("style"));
 
 styleElem.innerHTML = `
+ @import url('https://fonts.googleapis.com/css?family=Oswald');
+ @import url('https://fonts.googleapis.com/css?family=Montserrat');
+ @import url('https://fonts.googleapis.com/css?family=Teko');
+ @import url('https://fonts.googleapis.com/css?family=Kanit');
+ @import url('https://fonts.googleapis.com/css?family=Exo');
+ @import url('https://fonts.googleapis.com/css?family=Anton');
+ @import url('https://fonts.googleapis.com/css?family=Rock+Salt');
+ @import url('https://fonts.googleapis.com/css?family=New+Rocker');
+
 .colorGenre
 {
     width: 100%;
     height: 100%;
-}
-.eff {
-     position: relative;
-}
-.eff::after
-{
-  z-index: -1;
-  position: absolute;
-  content: "";
-  bottom: 15px;
-  right: 10px;
-  left: auto;
-  width: 50%;
-  top: 80%;
-  max-width:300px;
-  background: #777;
-  -webkit-box-shadow: 0 15px 10px #777;
-  -moz-box-shadow: 0 15px 10px #777;
-  box-shadow: 0 15px 10px #777;
-  -webkit-transform: rotate(3deg);
-  -moz-transform: rotate(3deg);
-  -o-transform: rotate(3deg);
-  -ms-transform: rotate(3deg);
-  transform: rotate(3deg);
-}
-
-.effect
-{
-     position:relative;
-    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.21) inset;
-    -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.21) inset;
-    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.21) inset;
-}
-
-.effect:before, .effect:after
-{
-    content:"";
-    position:absolute;
-    z-index:-1;
-    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
-    -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
-    box-shadow:0 0 20px rgba(0,0,0,0.8);
-    top:10px;
-    bottom:10px;
-    left:0;
-    right:0;
-    -moz-border-radius:100px / 10px;
-    border-radius:100px / 10px;
-}
-.effect:after
-{
-    right:10px;
-    left:auto;
-    -webkit-transform:skew(8deg) rotate(3deg);
-    -moz-transform:skew(8deg) rotate(3deg);
-    -ms-transform:skew(8deg) rotate(3deg);
-    -o-transform:skew(8deg) rotate(3deg);
-    transform:skew(8deg) rotate(3deg);
 }
 `
 
@@ -79,16 +30,15 @@ const getGenres = (title) => {
         title = title.replace('[', '')
         title = title.replace(']', '')
         let genres = [title]
-        genres = title.split(/[\/,\s]/)
+        genres = title.split(/[\/,]/)
 
         if (!genres) return []
         genres = genres.filter((gen) => {
-            if (gen.length === 0) return false
-            return true
+                if (gen.length === 0) return false
+                return true
             }
         )
         genres = genres.filter((gen, pos) => genres.indexOf(gen) == pos)
-        console.log('GGGG', genres);
         return genres
     } catch (e) {
         console.log(e);
@@ -105,71 +55,31 @@ const genreToRegex = (genre) => {
 }
 
 const getGenreColor = (genreRegex, colorData) => {
-    let re = new RegExp(genreRegex, "i");
     for (let key in colorData) {
+        let regexKey = genreToRegex(key)
+        let re = new RegExp(regexKey, "i");
         if (colorData.hasOwnProperty(key)) {
-            if (key.match(re)) return colorData[key]
+            if (genreRegex.match(re)) {
+                return {genre: key, color: colorData[key]}
+            }
         }
     }
-    return '#ffffff'
+    return null
 }
 
-// const genColors = (nrOfColors) => {
-//     let colors = []
-//     for(let i = 0; i < 360; i += 360 / nrOfColors) {
-//         let hue = i;
-//         let saturation = 90 + Math.random() * 10;
-//         let lightness = 50 + Math.random() * 10;
-//
-//         // let rgb = hslToRgb(hue, saturation, lightness)
-//         // let hex = rgbToHex(rgb[0], rgb[1], rgb[2])
-//         let hex = hslToHex(hue, saturation, lightness)
-//         colors.push(hex)
-//     }
-//     console.log(colors);
-//     return colors
-// }
-//
-// function hslToHex(h, s, l) {
-//   h /= 360;
-//   s /= 100;
-//   l /= 100;
-//   let r, g, b;
-//   if (s === 0) {
-//     r = g = b = l; // achromatic
-//   } else {
-//     const hue2rgb = (p, q, t) => {
-//       if (t < 0) t += 1;
-//       if (t > 1) t -= 1;
-//       if (t < 1 / 6) return p + (q - p) * 6 * t;
-//       if (t < 1 / 2) return q;
-//       if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-//       return p;
-//     };
-//     const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-//     const p = 2 * l - q;
-//     r = hue2rgb(p, q, h + 1 / 3);
-//     g = hue2rgb(p, q, h);
-//     b = hue2rgb(p, q, h - 1 / 3);
-//   }
-//   const toHex = x => {
-//     const hex = Math.round(x * 255).toString(16);
-//     return hex.length === 1 ? '0' + hex : hex;
-//   };
-//   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-// }
-//
-//
-// const getRandomInt = () => Math.floor(255 * Math.random())
-//
-// const getRandomColor = (opacity = 0.1) => {
-//     return 'rgba(' + getRandomInt() + ',' + getRandomInt() + ',' + getRandomInt() + ',' + opacity + ')'
-// }
+const hexToRgb = (hex) => {
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
 
 const addColorsOnSongs = (colorData) => {
     for (let i = 0; i < elements.length; i++) {
         let elem2 = elements[i];
-        var style = window.getComputedStyle(elem2);
+        let style = window.getComputedStyle(elem2);
         let elem = elem2.querySelector('a.title');
         let text = elem.innerText.toLowerCase()
         let href = elem.href
@@ -184,7 +94,7 @@ const addColorsOnSongs = (colorData) => {
         let colorContainer = document.createElement('a')
         colorContainer.className = "colorContainer"
         colorContainer.style.float = "right"
-        colorContainer.style.width = "200px"
+        colorContainer.style.marginTop = "15px"
         colorContainer.style.height = style.height
         colorContainer.style.marginBottom = "-" + style.height
         colorContainer.style.display = 'flex'
@@ -193,22 +103,40 @@ const addColorsOnSongs = (colorData) => {
         colorContainer.href = href
 
         let genres = getGenres('[' + text)
+        let index = 0
+        let outputText = []
 
         for (let genre of genres) {
-            let genreRegex = genreToRegex(genre)
-            let genreColor = getGenreColor(genreRegex, colorData)
+            let genreColor = getGenreColor(genre, colorData)
 
-            if (genreColor === '#ffffff'){
+            if (!genreColor){
                 continue
             }
 
-            let colorElem = document.createElement('div')
-            colorElem.className = "colorGenre effect"
+            outputText.push(genreColor.genre)
 
-            colorElem.style.backgroundColor = genreColor
-
-            colorContainer.appendChild(colorElem)
+            if (index === 0) {
+                let rgb = hexToRgb(genreColor.color)
+                elem2.style.backgroundColor = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.1' + ')'
+            }
+            index++
         }
+
+        outputText = Array.from(new Set(outputText))
+        outputText = outputText.join(', ')
+
+        colorContainer.innerText = outputText
+        colorContainer.style.maxWidth = '50%'
+        colorContainer.style.fontSize = '2vw'
+        colorContainer.style.wordWrap = 'normal'
+        colorContainer.style.fontFamily = 'Oswald'
+        colorContainer.style.fontFamily = 'Montserrat'
+        colorContainer.style.fontFamily = 'Teko'
+        colorContainer.style.fontFamily = 'Kanit'
+        colorContainer.style.fontFamily = 'Exo'
+        colorContainer.style.fontFamily = 'Rock Salt'
+        colorContainer.style.fontFamily = 'New Rocker'
+        colorContainer.style.fontFamily = 'Anton'
 
         if (genres.length > 0) {
             elem2.insertAdjacentElement('afterbegin', colorContainer)
