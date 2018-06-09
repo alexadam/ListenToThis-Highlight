@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
-    "name": "ListenToThis-Colors",
+    "name": "ListenToThis-Highlight",
     "version": "1",
     "author": "Alex Adam",
-    "homepage_url": "https://github.com/alexadam/ListenToThis-Colors",
+    "homepage_url": "https://github.com/alexadam/ListenToThis-Highlight",
     "description": "",
     "options_page": "options.html",
     "icons": {
