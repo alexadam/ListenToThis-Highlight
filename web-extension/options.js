@@ -109,30 +109,34 @@ const createColorsUI = (data) => {
         if (data.hasOwnProperty(variable)) {
             let genreInputLabel = document.createElement('span')
             genreInputLabel.innerText = 'Genre:'
+            genreInputLabel.className = 'genreNameLabel'
             let genreInput = document.createElement('input')
             genreInput.className = 'genreName'
             genreInput.type = 'text'
             genreInput.value = variable
             let colorInputLabel = document.createElement('span')
             colorInputLabel.innerText = 'Color:'
+            colorInputLabel.className = 'colorNameLabel'
             let colorInput = document.createElement('input')
             colorInput.className = 'colorName'
             colorInput.type = 'color'
             colorInput.value = data[variable]
             let removeButton = document.createElement('button')
             removeButton.innerText = 'Remove'
+            removeButton.className = 'removeButton'
             removeButton.addEventListener('click', ((index) => {
                 if (confirm('Are you sure you want to remove this?')) {
                     let tmpElem = document.getElementById('data' + index)
                     if (tmpElem && tmpElem.parentElement) {
                         tmpElem.parentElement.removeChild(tmpElem)
-                        saveOptions()
+                        // saveOptions()
                     }
                 }
             }).bind(this, index))
 
             let group = document.createElement('div')
             group.id = 'data' + index
+            group.className = 'genreColorGroup'
             group.appendChild(genreInputLabel)
             group.appendChild(genreInput)
             group.appendChild(colorInputLabel)
@@ -151,30 +155,34 @@ const addOption = () => {
     let index = Math.floor(Math.random() * 1000000)
     let genreInputLabel = document.createElement('span')
     genreInputLabel.innerText = 'Genre:'
+    genreInputLabel.className = 'genreNameLabel'
     let genreInput = document.createElement('input')
     genreInput.className = 'genreName'
     genreInput.type = 'text'
     genreInput.value = 'misc'
     let colorInputLabel = document.createElement('span')
     colorInputLabel.innerText = 'Color:'
+    colorInputLabel.className = 'colorNameLabel'
     let colorInput = document.createElement('input')
     colorInput.className = 'colorName'
     colorInput.type = 'color'
     colorInput.value = '#000000'
     let removeButton = document.createElement('button')
     removeButton.innerText = 'Remove'
+    removeButton.className = 'removeButton'
     removeButton.addEventListener('click', ((index) => {
         if (confirm('Are you sure you want to remove this?')) {
             let tmpElem = document.getElementById('data' + index)
             if (tmpElem && tmpElem.parentElement) {
                 tmpElem.parentElement.removeChild(tmpElem)
-                saveOptions()
+                // saveOptions()
             }
         }
     }).bind(this, index))
 
     let group = document.createElement('div')
     group.id = 'data' + index
+    group.className = 'genreColorGroup'
     group.appendChild(genreInputLabel)
     group.appendChild(genreInput)
     group.appendChild(colorInputLabel)
@@ -184,7 +192,7 @@ const addOption = () => {
     let container = document.getElementById('container')
     container.appendChild(group)
 
-    saveOptions()
+    // saveOptions()
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
