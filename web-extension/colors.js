@@ -22,6 +22,18 @@ const elements = document.getElementsByClassName('thing');
 const elements2 = document.getElementsByClassName('scrollerItem');
 
 
+/*
+
+// TODO on ajax page update !!!! see https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
+// for new reddit design
+var elementsNew = document.querySelectorAll('span > a > h2');
+elementsNew.forEach((elem) => console.log(elem.innerText))
+// TODO ? is this the best way /
+var elementsNew2 = document.querySelectorAll('span > a[target="_blank"]');
+elementsNew2.forEach((elem) => console.log(elem.innerText))
+
+*/
+
 const genreRegex = /\[(?:([^\]]+)\/?)+\]/gi;
 
 const getGenres = (title) => {
