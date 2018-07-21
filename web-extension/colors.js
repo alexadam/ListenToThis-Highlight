@@ -1,4 +1,4 @@
-var styleElem = document.head.appendChild(document.createElement("style"));
+const styleElem = document.head.appendChild(document.createElement("style"));
 
 styleElem.innerHTML = `
  @import url('https://fonts.googleapis.com/css?family=Oswald');
@@ -17,8 +17,10 @@ styleElem.innerHTML = `
 }
 `
 
-var elements = document.getElementsByClassName('thing');
-// var elements = document.querySelectorAll('a.title');
+// old reddit
+const elements = document.getElementsByClassName('thing');
+const elements2 = document.getElementsByClassName('scrollerItem');
+
 
 const genreRegex = /\[(?:([^\]]+)\/?)+\]/gi;
 
@@ -50,7 +52,7 @@ const genreToRegex = (genre) => {
     genre = genre.trim()
     genre = genre.toLowerCase()
     genre = genre.replace(/[^a-z0-9]/gi, '.?')
-    genre = '.*?' + genre + '.*?'
+    genre = '.*' + genre + '.*'
     return genre
 }
 
@@ -77,12 +79,36 @@ const hexToRgb = (hex) => {
 }
 
 const addColorsOnSongs = (colorData) => {
-    for (let i = 0; i < elements.length; i++) {
-        let elem2 = elements[i];
+    let allElements = elements
+    if (elements.length === 0) allElements = elements2;
+
+    for (let i = 0; i < allElements.length; i++) {
+        let elem2 = allElements[i];
         let style = window.getComputedStyle(elem2);
+        let colorObj = elem2.querySelector('div.colorContainer');
+        if (colorObj) continue //TODO
+
+
+        // old reddit
         let elem = elem2.querySelector('a.title');
+        // new reddit
+        if (!elem) {
+            elem = elem2.querySelector('h2');
+        }
+        if (!elem) continue
+
         let text = elem.innerText.toLowerCase()
         let href = elem.href
+        // new reddit
+        if (!href) {
+            hrefs = elem2.getElementsByTagName('a')
+            for (let tmpHref of hrefs) {
+                if (tmpHref.rel === 'noopener noreferrer') {
+                    href = tmpHref.href
+                    break
+                }
+            }
+        }
 
         if (text.indexOf('[') === -1) {
             continue
@@ -152,3 +178,67 @@ chrome.storage.local.get('colors', function(data) {
         addColorsOnSongs(data.colors);
     }
 });
+
+
+
+// const targetElem = document.getElementsByClassName('s1jtt59r-5 kRzhyR')[0];
+// console.log('taget', targetElem, targetElem.style.cssText);
+
+const targetElem = document.getElementById('SHORTCUT_FOCUSABLE_DIV')
+
+
+// TODO Remove
+// var observer = new MutationObserver(() => {console.log('UPDATE 1222 !!!!!')});
+// observer.observe(targetElem, { attributes: true, childList: true, subtree: true });
+// document.body.addEventListener('DOMSubtreeModified', function () {
+// document.title = 'DOM Changed at ' + new Date();
+// }, false);
+
+
+
+var observeDOM = (function(){
+var MutationObserver = window.MutationObserver || window.WebKitMutationObserver,
+eventListenerSupported = window.addEventListener;
+
+    return function(obj, callback){
+        if( MutationObserver ){
+            var obs = new MutationObserver(function(mutations, observer){
+                // if( mutations[0].addedNodes.length || mutations[0].removedNodes.length )
+                if( mutations[0].addedNodes.length)
+                    callback(mutations[0].addedNodes);
+            });
+            obs.observe( obj, { childList:true, subtree:true });
+        }
+        else if( eventListenerSupported ){
+            obj.addEventListener('DOMNodeInserted', callback, false);
+            // obj.addEventListener('DOMNodeRemoved', callback, false);
+        }
+    };
+
+})();
+
+// only on new reddit
+if (targetElem) {
+    observeDOM(targetElem, function(addedNodes) {
+        console.log('dom changed', addedNodes);
+        for (let addedNode of addedNodes) {
+            if (addedNode.className === 'colorContainer') {
+                return
+            }
+        }
+        console.log('dom changed 222', addedNodes);
+
+        chrome.storage.local.get('colors', function(data) {
+            let paras = document.getElementsByClassName('colorContainer');
+            while (paras[0]) {
+                paras[0].parentNode.removeChild(paras[0]);
+            }
+
+            if (!data || Object.keys(data).length === 0 || Object.keys(data.colors).length === 0) {
+                addColorsOnSongs({});
+            } else {
+                addColorsOnSongs(data.colors);
+            }
+        });
+    });
+}
