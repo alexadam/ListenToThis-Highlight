@@ -132,17 +132,23 @@ const addColorsOnSongs = (colorData) => {
         let colorContainer = document.createElement('a')
         colorContainer.className = "colorContainer"
         colorContainer.style.float = "right"
-        colorContainer.style.marginTop = "15px"
+
+        // determine marginTop
+        let marginTop = '15px'
+        if (elem2.offsetHeight < 50) {marginTop = '6px'}
+        else if (elem2.offsetHeight < 85){ marginTop = '20px'}
+
+        colorContainer.style.marginTop = marginTop
         colorContainer.style.height = style.height
         colorContainer.style.marginBottom = "-" + style.height
-        colorContainer.style.display = 'flex'
-        colorContainer.style.flexFlow = 'row'
         colorContainer.style.cursor = 'pointer'
+        colorContainer.style.color = 'black'
         colorContainer.href = href
 
         let genres = getGenres('[' + text)
         let index = 0
         let outputText = []
+        let backgroundColor = null
 
         for (let genre of genres) {
             let genreColor = getGenreColor(genre, colorData)
@@ -155,10 +161,12 @@ const addColorsOnSongs = (colorData) => {
 
             if (index === 0) {
                 let rgb = hexToRgb(genreColor.color)
-                elem2.style.backgroundColor = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.3' + ')'
+                backgroundColor = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 1' + ')'
+                elem2.style.backgroundColor = backgroundColor
             }
             index++
         }
+
 
         outputText = Array.from(new Set(outputText))
         outputText = outputText.join(', ')
@@ -175,6 +183,17 @@ const addColorsOnSongs = (colorData) => {
         colorContainer.style.fontFamily = 'Rock Salt'
         colorContainer.style.fontFamily = 'New Rocker'
         colorContainer.style.fontFamily = 'Anton'
+
+        // on new reddit - set uniform color
+        if (backgroundColor) {
+            for (let child of elem2.children) {
+                child.setAttribute('style', 'background-color: '+backgroundColor+' !important' );
+
+                for (let child2 of child.children) {
+                    child2.setAttribute('style', 'background-color: '+backgroundColor+' !important' );
+                }
+            }
+        }
 
         if (genres.length > 0) {
             elem2.insertAdjacentElement('afterbegin', colorContainer)
@@ -232,13 +251,11 @@ eventListenerSupported = window.addEventListener;
 // only on new reddit
 if (targetElem) {
     observeDOM(targetElem, function(addedNodes) {
-        console.log('dom changed', addedNodes);
         for (let addedNode of addedNodes) {
             if (addedNode.className === 'colorContainer') {
                 return
             }
         }
-        console.log('dom changed 222', addedNodes);
 
         chrome.storage.local.get('colors', function(data) {
             let paras = document.getElementsByClassName('colorContainer');
