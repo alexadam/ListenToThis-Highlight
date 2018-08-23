@@ -5,69 +5,84 @@
         <title>ListenToThis - Options</title>
     </head>
     <body>
-        <div id="container">
+        <div id="root">
+            <div id="container">
+            </div>
+            <button id="add" class="button" type="button" name="button">Add genre</button>
+            <hr />
+            <div id="buttons">
+                <button id="save" class="button" type="button" name="button">Save</button>
+                <div id="status"></div>
+                <button id="reset" class="button" type="button" name="button">Reset</button>
+            </div>
         </div>
-        <button id="add" type="button" name="button">Add genre</button>
-        <hr />
-        <button id="save" type="button" name="button">Save</button>
-        <button id="reset" type="button" name="button">Reset</button>
-        <div id="status"></div>
+
         <script src="options.js"></script>
         <style media="screen">
-            .container {
+            #root {
+                display: flex;
+                flex-flow: column;
+            }
+            #container {
+                display: flex;
+                flex-flow: column;
+                overflow-y: scroll;
+                max-height: 800px;
             }
             .genreColorGroup {
                 margin-bottom: 10px;
+                display: flex;
+                flex-flow: row;
+                align-items: center;
             }
             .genreColorGroup:hover {
                 background-color: lightgray;
             }
             .genreNameLabel {
-                font-size: 20px;
+                font-size: 12px;
                 font-family: sans-serif;
                 margin-right: 10px;
-                font-weight: bold;
+                /* font-weight: bold; */
             }
             .genreName {
-                font-size: 20px;
-                font-family: sans-serif;
-                margin-right: 10px;
-            }
-            .colorNameLabel {
-                font-size: 20px;
+                font-size: 12px;
                 font-family: sans-serif;
                 margin-right: 10px;
                 font-weight: bold;
+            }
+            .colorNameLabel {
+                font-size: 12px;
+                font-family: sans-serif;
+                margin-right: 10px;
+                /* font-weight: bold; */
             }
             .colorName {
                 margin-right: 30px;
             }
             .removeButton {
-                font-size: 20px;
+            }
+            .button {
+                font-size: 12px;
                 font-family: sans-serif;
                 cursor: pointer;
+                padding: 5px;
+                font-weight: bold;
             }
             #add {
-                font-size: 20px;
-                font-family: sans-serif;
-                cursor: pointer;
-                padding: 5px;
-                font-weight: bold;
+                width: 90px;
+            }
+            #buttons {
+                display: flex;
+                flex-flow: row;
+                justify-content: space-between;
+                width: 100%;
             }
             #save {
-                font-size: 20px;
-                font-family: sans-serif;
-                cursor: pointer;
                 background-color: lime;
-                padding: 5px;
-                font-weight: bold;
             }
             #reset {
-                font-size: 20px;
-                font-family: sans-serif;
                 cursor: pointer;
-                float: right;
-                padding: 5px;
+                align-self: flex-end;
             }
             hr {
                 margin: 20px 0;

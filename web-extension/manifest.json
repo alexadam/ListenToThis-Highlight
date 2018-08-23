@@ -6,6 +6,9 @@
     "homepage_url": "https://github.com/alexadam/ListenToThis-Highlight",
     "description": "",
     "options_page": "options.html",
+    "options_ui": {
+        "page": "options.html"
+    },
     "icons": {
         "48": "icons/logo.png"
     },

@@ -123,7 +123,7 @@ const createColorsUI = (data) => {
             colorInput.value = data[variable]
             let removeButton = document.createElement('button')
             removeButton.innerText = 'Remove'
-            removeButton.className = 'removeButton'
+            removeButton.className = 'removeButton button'
             removeButton.addEventListener('click', ((index) => {
                 if (confirm('Are you sure you want to remove this?')) {
                     let tmpElem = document.getElementById('data' + index)
@@ -169,7 +169,7 @@ const addOption = () => {
     colorInput.value = '#000000'
     let removeButton = document.createElement('button')
     removeButton.innerText = 'Remove'
-    removeButton.className = 'removeButton'
+    removeButton.className = 'removeButton button'
     removeButton.addEventListener('click', ((index) => {
         if (confirm('Are you sure you want to remove this?')) {
             let tmpElem = document.getElementById('data' + index)
