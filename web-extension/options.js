@@ -46,17 +46,17 @@ const genres = {
     'country': '#fad337',
     'chill': '#a8f830',
     'funk': '#F2EF0C',
-    'jazz': '#7117f8',
-    'soul': '#274A43',
+    'jazz': '#fba19d',
+    'soul': '#aca2bb',
 }
 
 const resetOptions = () => {
     chrome.storage.local.set({
         colors: genres
-    }, function() {
-        var status = document.getElementById('status');
+    }, () => {
+        let status = document.getElementById('status');
         status.textContent = 'Options saved.';
-        setTimeout(function() {
+        setTimeout(() => {
             status.textContent = '';
         }, 2750);
     });
@@ -82,10 +82,10 @@ const saveOptions = () => {
 
     chrome.storage.local.set({
         colors: data
-    }, function() {
-        var status = document.getElementById('status');
+    }, () => {
+        let status = document.getElementById('status');
         status.textContent = 'Options saved.';
-        setTimeout(function() {
+        setTimeout(() => {
             status.textContent = '';
         }, 2750);
     });
@@ -94,7 +94,7 @@ const saveOptions = () => {
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 const restoreOptions = () => {
-    chrome.storage.local.get('colors', function (data) {
+    chrome.storage.local.get('colors', (data) => {
             if (!data || Object.keys(data).length === 0 || Object.keys(data.colors).length === 0) {
                 createColorsUI(genres);
             } else {
@@ -191,8 +191,6 @@ const addOption = () => {
 
     let container = document.getElementById('container')
     container.appendChild(group)
-
-    // saveOptions()
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);

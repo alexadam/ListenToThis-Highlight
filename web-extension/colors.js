@@ -215,8 +215,8 @@ chrome.storage.local.get('colors', function(data) {
 // const targetElem = document.getElementsByClassName('s1jtt59r-5 kRzhyR')[0];
 // console.log('taget', targetElem, targetElem.style.cssText);
 
-const targetElem = document.getElementById('SHORTCUT_FOCUSABLE_DIV')
-
+// const targetElem = document.getElementById('SHORTCUT_FOCUSABLE_DIV')
+const targetElem = document.getElementById('2x-container')
 
 // TODO Remove
 // var observer = new MutationObserver(() => {console.log('UPDATE 1222 !!!!!')});
@@ -227,22 +227,22 @@ const targetElem = document.getElementById('SHORTCUT_FOCUSABLE_DIV')
 
 
 
-var observeDOM = (function(){
-var MutationObserver = window.MutationObserver || window.WebKitMutationObserver,
-eventListenerSupported = window.addEventListener;
+const observeDOM = (() => {
+    const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+    const eventListenerSupported = window.addEventListener;
 
-    return function(obj, callback){
-        if( MutationObserver ){
-            var obs = new MutationObserver(function(mutations, observer){
+    return (obj, callback) => {
+        if (MutationObserver){
+            const obs = new MutationObserver((mutations, observer) => {
                 // if( mutations[0].addedNodes.length || mutations[0].removedNodes.length )
-                if( mutations[0].addedNodes.length)
+                if (mutations[0].addedNodes.length)
                     callback(mutations[0].addedNodes);
             });
-            obs.observe( obj, { childList:true, subtree:true });
+            obs.observe(obj, { childList:true, subtree:true });
         }
         else if( eventListenerSupported ){
             obj.addEventListener('DOMNodeInserted', callback, false);
-            // obj.addEventListener('DOMNodeRemoved', callback, false);
+            obj.addEventListener('DOMNodeRemoved', callback, false);
         }
     };
 
@@ -250,14 +250,14 @@ eventListenerSupported = window.addEventListener;
 
 // only on new reddit
 if (targetElem) {
-    observeDOM(targetElem, function(addedNodes) {
+    observeDOM(targetElem, (addedNodes) => {
         for (let addedNode of addedNodes) {
             if (addedNode.className === 'colorContainer') {
                 return
             }
         }
 
-        chrome.storage.local.get('colors', function(data) {
+        chrome.storage.local.get('colors', (data) => {
             let paras = document.getElementsByClassName('colorContainer');
             while (paras[0]) {
                 paras[0].parentNode.removeChild(paras[0]);

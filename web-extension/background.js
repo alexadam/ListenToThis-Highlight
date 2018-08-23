@@ -27,8 +27,8 @@ const genres = {
     'country': '#fad337',
     'chill': '#a8f830',
     'funk': '#F2EF0C',
-    'jazz': '#7117f8',
-    'soul': '#274A43',
+    'jazz': '#fba19d',
+    'soul': '#aca2bb',
 }
 
 chrome.storage.local.get('colors', function(data) {
