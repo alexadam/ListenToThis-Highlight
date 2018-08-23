@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "name": "ListenToThis-Highlight",
+    "name": "r/ListenToThis-Highlight",
     "version": "1",
     "author": "Alex Adam",
     "homepage_url": "https://github.com/alexadam/ListenToThis-Highlight",
@@ -8,6 +8,14 @@
     "options_page": "options.html",
     "icons": {
         "48": "icons/logo.png"
+    },
+    "browser_action": {
+      "default_icon": {
+        "48": "icons/logo.png"
+      },
+      "default_title": "r/ListenToThis-Highlight",
+      "browser_style": true,
+      "default_popup": "action.html"
     },
     "background": {
         "scripts": ["background.js"]
