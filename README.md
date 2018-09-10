@@ -2,7 +2,7 @@
 
 A web extension to highlight your favourite genres on https://www.reddit.com/r/listentothis/
 
-It work on both 'new' Reddit:
+It works on both 'new' Reddit:
 
 ![new reddit classic](/imgs/newr-m.jpg)
 
@@ -14,4 +14,4 @@ and old Reddit:
 
 Options page:
 
-![options](/imgs/options.jpg)
+<img src="/imgs/options.jpg" width="350">
