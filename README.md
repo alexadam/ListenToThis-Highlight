@@ -6,14 +6,17 @@ It works on both 'new' Reddit:
 
 ![new reddit classic](/imgs/newr-m.jpg)
 
+---
 
 ![new reddit compact](/imgs/newr-s.jpg)
 
+---
 
 and on 'old' Reddit:
 
 ![old reddit](/imgs/oldr.jpg)
 
+---
 
 Options page:
 
