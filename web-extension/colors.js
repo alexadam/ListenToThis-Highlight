@@ -1,14 +1,7 @@
 const styleElem = document.head.appendChild(document.createElement("style"));
 
 styleElem.innerHTML = `
- @import url('https://fonts.googleapis.com/css?family=Oswald');
- @import url('https://fonts.googleapis.com/css?family=Montserrat');
- @import url('https://fonts.googleapis.com/css?family=Teko');
- @import url('https://fonts.googleapis.com/css?family=Kanit');
- @import url('https://fonts.googleapis.com/css?family=Exo');
  @import url('https://fonts.googleapis.com/css?family=Anton');
- @import url('https://fonts.googleapis.com/css?family=Rock+Salt');
- @import url('https://fonts.googleapis.com/css?family=New+Rocker');
 
 .colorGenre
 {
@@ -21,9 +14,7 @@ styleElem.innerHTML = `
 const elements = document.getElementsByClassName('thing');
 const elements2 = document.getElementsByClassName('scrollerItem');
 
-
 /*
-
 // TODO on ajax page update !!!! see https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
 // for new reddit design
 var elementsNew = document.querySelectorAll('span > a > h2');
@@ -175,13 +166,6 @@ const addColorsOnSongs = (colorData) => {
         colorContainer.style.maxWidth = '50%'
         colorContainer.style.fontSize = '2vw'
         colorContainer.style.wordWrap = 'normal'
-        colorContainer.style.fontFamily = 'Oswald'
-        colorContainer.style.fontFamily = 'Montserrat'
-        colorContainer.style.fontFamily = 'Teko'
-        colorContainer.style.fontFamily = 'Kanit'
-        colorContainer.style.fontFamily = 'Exo'
-        colorContainer.style.fontFamily = 'Rock Salt'
-        colorContainer.style.fontFamily = 'New Rocker'
         colorContainer.style.fontFamily = 'Anton'
 
         // on new reddit - set uniform color
@@ -217,15 +201,6 @@ chrome.storage.local.get('colors', function(data) {
 
 // const targetElem = document.getElementById('SHORTCUT_FOCUSABLE_DIV')
 const targetElem = document.getElementById('2x-container')
-
-// TODO Remove
-// var observer = new MutationObserver(() => {console.log('UPDATE 1222 !!!!!')});
-// observer.observe(targetElem, { attributes: true, childList: true, subtree: true });
-// document.body.addEventListener('DOMSubtreeModified', function () {
-// document.title = 'DOM Changed at ' + new Date();
-// }, false);
-
-
 
 const observeDOM = (() => {
     const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
