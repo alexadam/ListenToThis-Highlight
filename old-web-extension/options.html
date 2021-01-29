@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>ListenToThis - Options</title>
+    </head>
+    <body>
+        <div id="root">
+            <div id="container">
+            </div>
+            <button id="add" class="button" type="button" name="button">Add genre</button>
+            <hr />
+            <div id="buttons">
+                <button id="save" class="button" type="button" name="button">Save</button>
+                <div id="status"></div>
+                <button id="reset" class="button" type="button" name="button">Reset</button>
+            </div>
+        </div>
+
+        <script src="options.js"></script>
+        <style media="screen">
+            #root {
+                display: flex;
+                flex-flow: column;
+            }
+            #container {
+                display: flex;
+                flex-flow: column;
+                overflow-y: scroll;
+                max-height: 800px;
+            }
+            .genreColorGroup {
+                margin-bottom: 10px;
+                display: flex;
+                flex-flow: row;
+                align-items: center;
+            }
+            .genreColorGroup:hover {
+                background-color: lightgray;
+            }
+            .genreNameLabel {
+                font-size: 12px;
+                font-family: sans-serif;
+                margin-right: 10px;
+                /* font-weight: bold; */
+            }
+            .genreName {
+                font-size: 12px;
+                font-family: sans-serif;
+                margin-right: 10px;
+                font-weight: bold;
+            }
+            .colorNameLabel {
+                font-size: 12px;
+                font-family: sans-serif;
+                margin-right: 10px;
+                /* font-weight: bold; */
+            }
+            .colorName {
+                margin-right: 30px;
+            }
+            .removeButton {
+            }
+            .button {
+                font-size: 12px;
+                font-family: sans-serif;
+                cursor: pointer;
+                padding: 5px;
+                font-weight: bold;
+            }
+            #add {
+                width: 90px;
+            }
+            #buttons {
+                display: flex;
+                flex-flow: row;
+                justify-content: space-between;
+                width: 100%;
+            }
+            #save {
+                background-color: lime;
+            }
+            #reset {
+                cursor: pointer;
+                align-self: flex-end;
+            }
+            hr {
+                margin: 20px 0;
+            }
+        </style>
+    </body>
+</html>

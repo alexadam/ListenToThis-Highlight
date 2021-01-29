@@ -1,34 +1,33 @@
 {
-    "manifest_version": 2,
-    "name": "r/ListenToThis-Highlight",
-    "version": "1",
-    "author": "Alex Adam",
-    "homepage_url": "https://github.com/alexadam/ListenToThis-Highlight",
-    "description": "",
-    "options_page": "options.html",
-    "options_ui": {
-        "page": "options.html"
+  "manifest_version": 2,
+  "name": "music-highlight",
+  "version": "1",
+  "author": "Your Name",
+  "homepage_url": "https://www.reddit.com/r/listentothis/",
+  "description": "Highlight your favourite music genres on r/ListenToThis",
+  "content_scripts": [{
+    "matches": ["*://*.reddit.com/r/listentothis*"],
+    "js": ["colors.js"]
+  }],
+  "permissions": [
+    "activeTab",
+    "https://www.reddit.com/r/listentothis/",
+    "https://old.reddit.com/r/listentothis/",
+    "storage"
+  ],
+  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html"
+  },
+  "icons": {
+    "48": "icons/logo.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "48": "icons/logo.png"
     },
-    "icons": {
-        "48": "icons/logo.png"
-    },
-    "browser_action": {
-      "default_icon": {
-        "48": "icons/logo.png"
-      },
-      "default_title": "r/ListenToThis-Highlight",
-      "browser_style": true,
-      "default_popup": "action.html"
-    },
-    "background": {
-        "scripts": ["background.js"]
-    },
-    "permissions": [
-        "activeTab",
-        "tabs",
-        "http://*/*",
-        "https://*/*",
-        "<all_urls>",
-        "storage"
-    ]
+    "default_title": "Music-Highlight",
+    "browser_style": true,
+    "default_popup": "action.html"
+  }
 }
